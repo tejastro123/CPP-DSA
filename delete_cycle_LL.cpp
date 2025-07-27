@@ -1,58 +1,68 @@
 // delete cycle in linked list
 #include <iostream>
 using namespace std;
-struct node {
-    int data;
-    node *next;
-    node(int x) : data(x), next(NULL) {}
+
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
 };
+
 class Solution {
 public:
-    void deleteCycle(node *head) {
-        if (head == NULL || head->next == NULL) return; // No cycle possible
-        node *slow = head;
-        node *fast = head;                                                                                          
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head;
+        ListNode *fast = head;
+        bool hasCycle = false;
+
         while (fast != NULL && fast->next != NULL) {
-            slow = slow->next; // Move slow one step at a time
-            fast = fast->next->next; // Move fast two steps at a time
-            if (slow == fast) { // Cycle detected
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                hasCycle = true;
                 break;
             }
         }
-        if (slow != fast) return; // No cycle found
-        // Find the start of the cycle
+        if (!hasCycle) return NULL;
+
         slow = head;
-        while (slow->next != fast->next) {
-            slow = slow->next; // Move slow one step at a time
-            fast = fast->next; // Move fast one step at a time
+        ListNode *prev = NULL;
+        while (slow != fast) {
+            slow = slow->next;
+            prev = fast;
+            fast = fast->next;
         }
-        // Now fast is at the last node of the cycle
-        fast->next = NULL; // Break the cycle
+
+        prev->next = NULL; // Remove the cycle by setting the last node's next to NULL
+        return slow; // The start of the cycle
+        
     }
 };
+
 int main() {
-    Solution solution;
-
     // Example usage
-    node *head = new node(1);
-    head->next = new node(2);
-    head->next->next = new node(3);
-    head->next->next->next = new node(4);
-    head->next->next->next->next = new node(5);
-    // Creating a cycle for testing
-    head->next->next->next->next->next = head; // 5 points to 3
+    ListNode *head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = head->next; // Create a cycle
 
-    solution.deleteCycle(head);
-
-    // Check if the cycle is deleted
-    node *current = head;
+    Solution sol;
+    ListNode *startOfCycle = sol.detectCycle(head);
+    
+    if (startOfCycle) {
+        cout << "Cycle detected starting at node with value: " << startOfCycle->val << endl;
+    } else {
+        cout << "No cycle detected." << endl;
+    }
+    //print the modified list
+    ListNode *current = head;
     while (current != NULL) {
-        cout << current->data << " ";
+        cout << current->val << " ";
         current = current->next;
     }
-    cout << endl; // Should print 1 2 3 without any cycle
+    cout << endl;   
 
-    // Clean up memory (not shown here, but should be done in real applications)
-    
     return 0;
 }
