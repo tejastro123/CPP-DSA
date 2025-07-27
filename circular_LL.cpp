@@ -8,7 +8,7 @@ public:
     Node* next;
     Node(int value) {
         data = value;
-        next = nullptr;
+        next = NULL;
     }
 };
 
@@ -18,11 +18,11 @@ class CircularLinkedList {
 public:
     CircularLinkedList() {
         head = NULL;
+        tail = NULL;
     }
-
     void insertAtHead(int val){
         Node* newnode = new Node(val);
-        if(tail == NULL){
+        if(head == NULL){
             head = tail = newnode;
             tail->next = head;
         }
@@ -32,7 +32,56 @@ public:
             tail->next = head;
         }
     }
-
+    void insertAtTail(int val){
+        Node* newnode = new Node(val);
+        if(tail == NULL){
+            head = tail = newnode;
+            tail->next = head;
+        }
+        else{
+            newnode->next = head;
+            tail->next = newnode;
+            tail = newnode;
+        }
+    }
+    void deleteAtHead(){
+        if(head == NULL){
+            cout<<"List is empty"<<endl;
+            return;
+        }
+        if(head == tail){
+            delete head;
+            head = tail = NULL;
+        }
+        else{
+            Node* temp = head;
+            head = head->next;
+            tail->next = head;
+            temp->next = NULL;
+            delete temp;    
+        }
+    }
+    void deleteAtTail(){
+        if(head == NULL){
+            cout<<"List is empty"<<endl;
+            return;
+        }
+        if(head == tail){
+            delete head;
+            head = tail = NULL;
+        }
+        else{
+            Node* temp = tail;
+            Node* prev = head;
+            while(prev->next != tail){
+                prev = prev->next;
+            }
+            tail = prev;
+            tail->next = head;
+            temp->next = NULL;
+            delete temp;
+        }
+    }
     void print(){
         if(head == NULL) return;
 
@@ -49,9 +98,22 @@ public:
 
 int main(){
     CircularLinkedList cll;
-    cll.insertAtHead(10);
-    cll.insertAtHead(20);
-    cll.insertAtHead(30);
+
+    // cll.insertAtHead(10);
+    // cll.insertAtHead(20);
+    // cll.insertAtHead(30);
+    // cll.print();
+
+    cll.insertAtTail(10);
+    cll.insertAtTail(20);
+    cll.insertAtTail(30);
     cll.print();
+
+    cll.deleteAtHead();
+    cll.print();
+
+    cll.deleteAtTail();
+    cll.print();
+
     return 0;
 }
