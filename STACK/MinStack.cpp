@@ -1,16 +1,21 @@
+#include <iostream>
 #include <stack>
+#include <algorithm>
+
+using namespace std;
 
 class MinStack {
-    private stack<int> stack;
-    private stack<int> minStack;
+private:
+    stack<int> s;
+    stack<int> minStack;
 
-    public MinStack() {
-        stack = new stack<int>();
-        minStack = new stack<int>();
+public:
+    MinStack() {
+        // Default constructor
     }
     
-    public void push(int val) {
-        stack.push(val);
+    void push(int val) {
+        s.push(val);
         
         if (minStack.empty()) {
             minStack.push(val);
@@ -19,16 +24,31 @@ class MinStack {
         }
     }
     
-    public void pop() {
-        stack.pop();
+    void pop() {
+        if (s.empty()) return;
+        s.pop();
         minStack.pop();
     }
     
-    public int top() {
-        return stack.top();
+    int top() {
+        if (s.empty()) return -1; // Or throw exception
+        return s.top();
     }
     
-    public int getMin() {
+    int getMin() {
+        if (minStack.empty()) return -1; // Or throw exception
         return minStack.top();
     }
+};
+
+int main() {
+    MinStack ms;
+    ms.push(-2);
+    ms.push(0);
+    ms.push(-3);
+    cout << "Min: " << ms.getMin() << endl; // return -3
+    ms.pop();
+    cout << "Top: " << ms.top() << endl;    // return 0
+    cout << "Min: " << ms.getMin() << endl; // return -2
+    return 0;
 }
