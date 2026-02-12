@@ -16,7 +16,7 @@ class Node {
 };
 
 int idx = -1;
-Node* buildTree(vector<int> order) {
+Node* buildTree(vector<int> order) {//O(n)
   idx++;
   if(order[idx] == -1) {
       return NULL;
@@ -28,7 +28,7 @@ Node* buildTree(vector<int> order) {
 }
 
 //height of the tree
-int height(Node* root) {
+int height(Node* root) {//O(n)
     if(root == NULL) {
         return 0;
     }
@@ -39,7 +39,7 @@ int height(Node* root) {
 }
 
 //count nodes
-int countNodes(Node* root) {
+int countNodes(Node* root) {//O(n)
     if(root == NULL) {
         return 0;
     }
@@ -50,7 +50,7 @@ int countNodes(Node* root) {
 }
 
 //sum of nodes
-int sumNodes(Node* root) {
+int sumNodes(Node* root) {//O(n)
     if(root == NULL) {
         return 0;
     }
