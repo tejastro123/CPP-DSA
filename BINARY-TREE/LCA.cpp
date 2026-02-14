@@ -27,7 +27,7 @@ Node* buildTree(vector<int> v) {
     return root;
 }
 
-Node* LCA(Node* root, Node* n1, Node* n2) {
+Node* LCA(Node* root, Node* n1, Node* n2) {//O(n)
     if(root == NULL) 
       return NULL;
 
