@@ -15,6 +15,8 @@ class Node {
       }
 }
 
+// bst check using min-max approach and recursion.
+//time complexity is O(n) and space complexity is O(h)    
 bool helper(Node* root, Node* min, Node* max ){
   if(root == NULL) {
     return true;
